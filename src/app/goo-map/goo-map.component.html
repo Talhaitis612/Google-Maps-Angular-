@@ -1,0 +1,31 @@
+<div class="w-6">
+  <div class="flex">
+    <input
+      type="text"
+      pInputText
+      class="flex-1 my-4"
+      #search
+      (keydown.enter)="$event.preventDefault()"
+    />
+    <!-- <p-button label="Search" icon="pi pi-search"  class="my-4"></p-button> -->
+  </div>
+</div>
+
+<div class="mx-2">
+  <google-map
+    height="400px"
+    width="830px"
+    (mapClick)="addMarker($event)"
+    [center]="markerPositions"
+    [zoom]="zoom"
+  >
+    <map-marker
+      [position]="markerPositions"
+      [options]="markerOptions"
+    ></map-marker>
+    <map-circle
+      [center]="markerPositions"
+      [options]="circleOptions"
+    ></map-circle>
+  </google-map>
+</div>
