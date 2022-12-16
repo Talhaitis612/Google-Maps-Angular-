@@ -6,29 +6,28 @@ import {
   AfterViewInit,
   NgZone,
 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+
 @Component({
   selector: 'app-goo-map',
   templateUrl: './goo-map.component.html',
   styleUrls: ['./goo-map.component.css'],
 })
 export class GooMapComponent implements OnInit, AfterViewInit {
-  markerOptions: google.maps.MarkerOptions = { draggable: false };
+  markerOptions: google.maps.MarkerOptions = {
+    draggable: true,
+    icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+  };
   markerPositions!: google.maps.LatLngLiteral;
+  radius = 40;
 
   zoom = 4;
   circleOptions = {
-    strokeColor: '#FF0000',
+    strokeColor: '#9c39ed',
     strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35,
-    radius: 50,
+    strokeWeight: 5,
+    fillColor: '#b76cf5',
+    fillOpacity: 0.25,
   };
-  markerIcon =
-    'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
   // apiLoaded: Observable<boolean>;
 
@@ -49,17 +48,23 @@ export class GooMapComponent implements OnInit, AfterViewInit {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position: GeolocationPosition) => {
-          console.log('Current Location',position);
+          console.log('Current Location', position);
           this.markerPositions = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
           console.log(this.markerPositions);
-
         }
       );
-    }
 
+      this.zoom = 18;
+
+      // Watch the location
+      const watchId = navigator.geolocation.watchPosition((position) => {
+        console.log('Watching Location :', watchId);
+        // Show a map centered at latitude / longitude.
+      });
+    }
   }
 
   ngAfterViewInit(): void {
@@ -90,7 +95,7 @@ export class GooMapComponent implements OnInit, AfterViewInit {
           lng: this.longitude,
         };
         this.markerPositions = this.center;
-        this.zoom = 10;
+        this.zoom = 15;
       });
     });
   }
@@ -99,5 +104,9 @@ export class GooMapComponent implements OnInit, AfterViewInit {
     this.markerPositions = event.latLng!.toJSON();
     // this.markerPositions.push(event.latLng!.toJSON());
     console.log('Marker Positions', this.markerPositions);
+  }
+
+  circleDragged($event: any) {
+    console.log('Circle Dragged', $event);
   }
 }

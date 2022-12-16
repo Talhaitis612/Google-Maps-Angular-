@@ -8,6 +8,7 @@ import { GooMapComponent } from './goo-map/goo-map.component';
 import {InputTextModule} from 'primeng/inputtext';
 import {FormsModule} from '@angular/forms';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import {SliderModule} from 'primeng/slider';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
     GoogleMapsModule,
     InputTextModule,
     HttpClientModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    SliderModule
   
   ],
   providers: [],
